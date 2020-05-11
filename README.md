@@ -1,4 +1,4 @@
 # Tank_Battle_Game
 Learning how to make a game.
-## Commits list
-* Preparing the readme file.
+## Commit's list
+* Preparing the readme file at github.
