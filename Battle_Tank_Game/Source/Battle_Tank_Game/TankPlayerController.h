@@ -20,7 +20,21 @@ protected:
 	
 public:
 	ATank* GetControlledTank() const;
+	virtual void Tick(float DeltaTime) override;
+	void AimTowardsCrosshair();
+	bool GetSightRayHitLoc(FVector& OutHitLocation) const;	
 
-private:
-	ATank* ContorlledTank;
+private:	
+	ATank* ControlledTank;
+	FVector TankLoc;
+	FRotator TankRot;	
+	FVector LineTraceEnd;
+	FVector ObjHit;
+
+	UPROPERTY(EditAnywhere)
+	float XCrossHairLoc = 0.5f;
+	UPROPERTY(EditAnywhere)
+	float YCrosshairLoc = 0.33333f;
+	UPROPERTY(EditAnywhere)
+	float Reach = 120.f;
 };
