@@ -14,7 +14,7 @@ void ATankAIController::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Tank AI Controller possessing %s"), *ContorlledTank->GetName());
+		// Tank AI Controller possessing a tank
 	}
 
 	PlayerTank = GetPlayerTank();
@@ -24,7 +24,7 @@ void ATankAIController::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Tank AI Controller found %s"), *PlayerTank->GetName());
+		// There is a player controller
 	}
 }
 

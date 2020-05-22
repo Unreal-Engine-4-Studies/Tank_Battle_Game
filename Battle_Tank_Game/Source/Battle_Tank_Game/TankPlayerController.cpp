@@ -2,6 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "DrawDebugHelpers.h"
+#include "Engine/World.h"
 
 
 void ATankPlayerController::BeginPlay()
@@ -15,7 +16,7 @@ void ATankPlayerController::BeginPlay()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Tank Player Controller possessing %s"), *ControlledTank->GetName());
+		// Tank Player Controller has possessed a tank
 	}
 }
 
@@ -43,17 +44,33 @@ void ATankPlayerController::AimTowardsCrosshair()
 bool ATankPlayerController::GetSightRayHitLoc(FVector& OutHitLocation) const
 {
 	int32 ViewportSizeX, ViewportSizeY;
+	FVector LookDirection, WorldLoc;
+	FVector2D ScreenLoc;
 
-	GetViewportSize(ViewportSizeX, ViewportSizeY);
+	GetViewportSize(OUT ViewportSizeX, OUT ViewportSizeY);
+	ScreenLoc = FVector2D(XCrossHairLoc * ViewportSizeX, YCrosshairLoc * ViewportSizeY);	
+	if (DeprojectScreenPositionToWorld(ScreenLoc.X, ScreenLoc.Y, OUT WorldLoc, OUT LookDirection))
+	{
+		GetLookVectorHitLoc(LookDirection, OutHitLocation);
+	}
+	return true;	
+}
 
-	auto ScreenLoc = FVector2D(XCrossHairLoc * ViewportSizeX, YCrosshairLoc * ViewportSizeY);
-	
-	
-	//GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT TankLoc, OUT TankRot); // Set the loc and rot of the pawn/player.
-	//LineTraceEnd = TankLoc + TankRot.Vector() * Reach; // Set the Line trace end of the pawn.
-	//DrawDebugLine(GetWorld(), TankLoc, LineTraceEnd, FColor(100, 155, 200), false, 0.f, 0, 2.f);	// Draw debug line in editor.
+bool ATankPlayerController::GetLookVectorHitLoc(FVector LookDirection, FVector& OutHitLocation) const
+{
+	FVector StartLoc, LineTraceEnd;
+	FHitResult OutObjHit;
 
-	//FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetPawn()); // Set the parameters to ignore.
-	//GetWorld()->LineTraceSingleByObjectType(OUT ObjHit, TankLoc, LineTraceEnd, FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody), TraceParameters); // Set the pawn reach and output what it is reaching.	
-	return false;
+	StartLoc = PlayerCameraManager->GetCameraLocation();
+	LineTraceEnd = StartLoc + LookDirection * Reach; // Set the Line trace end of the pawn.
+	if (GetWorld()->LineTraceSingleByChannel(OUT OutObjHit, StartLoc, LineTraceEnd, ECollisionChannel::ECC_Visibility)) // Set the pawn reach and output what it is reaching.
+	{
+		OutHitLocation = OutObjHit.Location;
+		return true;
+	}
+	else
+	{
+		OutHitLocation = FVector(0);
+		return false;
+	}
 }
