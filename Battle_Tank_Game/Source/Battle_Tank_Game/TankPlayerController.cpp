@@ -1,8 +1,6 @@
 // Leonardo Cruz copyright
 
 #include "TankPlayerController.h"
-#include "DrawDebugHelpers.h"
-#include "Engine/World.h"
 
 
 void ATankPlayerController::BeginPlay()
@@ -37,7 +35,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLoc(ObjHit))
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Hit location: %s"), *ObjHit.ToString()); 
+		GetControlledTank()->AimAt(ObjHit);
 	}
 }
 

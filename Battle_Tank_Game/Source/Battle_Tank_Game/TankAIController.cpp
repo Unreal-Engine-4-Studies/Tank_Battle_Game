@@ -7,8 +7,8 @@ void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ContorlledTank = GetControlledTank();
-	if (!ContorlledTank)
+	ControlledTank = GetControlledTank();
+	if (!ControlledTank)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Tank AI Controller has no possessed tank!"));
 	}
@@ -24,8 +24,17 @@ void ATankAIController::BeginPlay()
 	}
 	else
 	{
-		// There is a player controller
+		// Player controller found!
 	}
+}
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	if (PlayerTank)
+	{
+		AimAtPlayer();
+	}	
 }
 
 ATank* ATankAIController::GetControlledTank() const
@@ -36,4 +45,11 @@ ATank* ATankAIController::GetControlledTank() const
 ATank* ATankAIController::GetPlayerTank() const
 {
 	return Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+}
+
+void ATankAIController::AimAtPlayer()
+{
+	if (!ControlledTank) { return; }
+
+	GetControlledTank()->AimAt(PlayerTank->GetActorLocation());
 }

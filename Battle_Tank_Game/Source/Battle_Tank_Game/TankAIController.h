@@ -19,10 +19,12 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	virtual void Tick(float DeltaTime) override;
 	ATank* GetControlledTank() const;
 	ATank* GetPlayerTank() const;
+	void AimAtPlayer();
 
 private:
-	ATank* ContorlledTank;
+	ATank* ControlledTank;
 	ATank* PlayerTank;
 };
