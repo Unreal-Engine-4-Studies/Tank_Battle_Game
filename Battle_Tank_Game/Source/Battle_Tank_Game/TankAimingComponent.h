@@ -12,17 +12,18 @@ class BATTLE_TANK_GAME_API UTankAimingComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
+public:
 	UTankAimingComponent();
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-	void AimAt(FVector ObjHit, FString PawnName);
+	void AimAt(FVector ObjHit, float LaunchSpeed);
 	void SetBarrelRef(UStaticMeshComponent* BarrelToSet);
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;		
 
 private:
 	UStaticMeshComponent* Barrel = nullptr;
+	FVector OutLaunchVelocity;
+	FVector AimDirection;
+	FRotator BarrelRotator;
+	FRotator AimAsRotator;
+	FRotator DeltaRotator;
+
+	void MoveBarrelTowards(FVector AimDirct);
 };

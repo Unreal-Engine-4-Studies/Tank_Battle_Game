@@ -8,9 +8,6 @@
 #include "TankAimingComponent.h"
 #include "TankPlayerController.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class BATTLE_TANK_GAME_API ATankPlayerController : public APlayerController
 {

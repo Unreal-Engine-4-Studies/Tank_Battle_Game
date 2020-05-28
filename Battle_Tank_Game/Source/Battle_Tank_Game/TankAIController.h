@@ -8,9 +8,6 @@
 #include "TankAimingComponent.h"
 #include "TankAIController.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class BATTLE_TANK_GAME_API ATankAIController : public AAIController
 {

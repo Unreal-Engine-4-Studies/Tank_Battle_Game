@@ -1,6 +1,5 @@
 // Leonardo Cruz copyright
 
-
 #include "TankAIController.h"
 
 void ATankAIController::BeginPlay()
