@@ -1,7 +1,8 @@
 // Leonardo Cruz copyright
 
-#include "Kismet/GameplayStatics.h"
 #include "TankAimingComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "TankBarrel.h"
 
 UTankAimingComponent::UTankAimingComponent()
 {
@@ -23,7 +24,7 @@ void UTankAimingComponent::AimAt(FVector ObjHit, float LaunchSpeed)
 	
 }
 
-void UTankAimingComponent::SetBarrelRef(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelRef(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -33,6 +34,5 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirct)
 	BarrelRotator = Barrel->GetForwardVector().Rotation();
 	AimAsRotator = AimDirct.Rotation();
 	DeltaRotator = AimAsRotator - BarrelRotator;
-
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *GetOwner()->GetName(), *DeltaRotator.ToString());
+	Barrel->Elevate(5);	
 }
