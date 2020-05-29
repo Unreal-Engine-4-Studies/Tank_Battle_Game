@@ -9,10 +9,10 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UTankAimingComponent::AimAt(FVector ObjHit, float LaunchSpeed)
+void UTankAimingComponent::AimAt(FVector LocationToHit, float LaunchSpeed)
 {
 	if (!Barrel) { return; }
-	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, Barrel->GetSocketLocation("BarrelNose"), ObjHit, LaunchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace))
+	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, Barrel->GetSocketLocation("BarrelNose"), LocationToHit, LaunchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace))
 	{
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);		

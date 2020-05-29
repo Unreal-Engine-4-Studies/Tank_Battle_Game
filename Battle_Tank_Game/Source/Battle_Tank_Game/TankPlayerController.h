@@ -25,7 +25,7 @@ public:
 
 private:	
 	ATank* ControlledTank;
-	FVector ObjHit;
+	FVector LocationToHit;
 
 	UPROPERTY(EditAnywhere)
 	float XCrossHairLoc = 0.5f;

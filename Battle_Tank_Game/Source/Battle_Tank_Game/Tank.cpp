@@ -4,28 +4,13 @@
 
 ATank::ATank()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName ("Aiming Component"));
 }
 
-void ATank::BeginPlay()
+void ATank::AimAt(FVector LocationToHit)
 {
-	Super::BeginPlay();
-}
-
-void ATank::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
-void ATank::AimAt(FVector ObjHit)
-{
-	TankAimingComponent->AimAt(ObjHit, LaunchSpeed);
+	TankAimingComponent->AimAt(LocationToHit, LaunchSpeed);
 }
 
 void ATank::SetBarrelRef(UTankBarrel* BarrelToSet)

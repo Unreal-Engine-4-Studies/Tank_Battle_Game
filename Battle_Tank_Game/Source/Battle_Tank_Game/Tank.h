@@ -16,15 +16,12 @@ class BATTLE_TANK_GAME_API ATank : public APawn
 
 public:
 	ATank();
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	void AimAt(FVector ObjHit);
+	void AimAt(FVector LocationToHit);
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelRef(UTankBarrel* BarrelToSet);
 
 protected:
-	virtual void BeginPlay() override;
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = Firing)

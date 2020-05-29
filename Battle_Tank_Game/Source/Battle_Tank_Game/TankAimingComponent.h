@@ -16,7 +16,7 @@ class BATTLE_TANK_GAME_API UTankAimingComponent : public UActorComponent
 
 public:
 	UTankAimingComponent();
-	void AimAt(FVector ObjHit, float LaunchSpeed);
+	void AimAt(FVector LocationToHit, float LaunchSpeed);
 	void SetBarrelRef(UTankBarrel* BarrelToSet);
 
 private:	
