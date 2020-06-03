@@ -1,7 +1,8 @@
 // Leonardo Cruz copyright
 
+#include "Tank.h"
+#include "TankAimingComponent.h"
 #include "TankPlayerController.h"
-
 
 void ATankPlayerController::BeginPlay()
 {

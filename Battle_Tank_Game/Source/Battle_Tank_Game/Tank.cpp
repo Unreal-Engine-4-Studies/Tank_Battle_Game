@@ -1,5 +1,8 @@
 // Leonardo Cruz copyright
 
+#include "TankAimingComponent.h"
+#include "TankBarrel.h"
+#include "TankTurrent.h"
 #include "Tank.h"
 
 ATank::ATank()
@@ -16,5 +19,10 @@ void ATank::AimAt(FVector LocationToHit)
 void ATank::SetBarrelRef(UTankBarrel* BarrelToSet)
 {
 	TankAimingComponent->SetBarrelRef(BarrelToSet);
+}
+
+void ATank::SetTurrentRef(UTankTurrent* TurrentToSet)
+{
+	TankAimingComponent->SetTurrentRef(TurrentToSet);
 }
 

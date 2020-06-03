@@ -1,21 +1,33 @@
 // Leonardo Cruz copyright
 
-#include "TankAimingComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
+#include "TankTurrent.h"
+#include "TankAimingComponent.h"
 
 UTankAimingComponent::UTankAimingComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 }
 
 void UTankAimingComponent::AimAt(FVector LocationToHit, float LaunchSpeed)
 {
 	if (!Barrel) { return; }
-	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, Barrel->GetSocketLocation("BarrelNose"), LocationToHit, LaunchSpeed, ESuggestProjVelocityTraceOption::DoNotTrace))
+	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, Barrel->GetSocketLocation("BarrelNose"), LocationToHit, LaunchSpeed, false, 0.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace))
 	{
-		AimDirection = OutLaunchVelocity.GetSafeNormal();
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);		
+	}
+	else
+	{
+		// UE_LOG(LogTemp, Error, TEXT("No solution found at SuggestProjectileVelocity()!"));
+	}
+
+	if (!Turrent) { return; }
+	if (UGameplayStatics::SuggestProjectileVelocity(this, OutLaunchVelocity, Turrent->GetSocketLocation("TurrentSocket"), LocationToHit, LaunchSpeed, false, 0.f, 0.f, ESuggestProjVelocityTraceOption::DoNotTrace))
+	{
+		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveTurrentTowards(AimDirection);
 	}
 	else
 	{
@@ -26,13 +38,28 @@ void UTankAimingComponent::AimAt(FVector LocationToHit, float LaunchSpeed)
 
 void UTankAimingComponent::SetBarrelRef(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	Barrel = BarrelToSet;
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirct)
 {
 	BarrelRotator = Barrel->GetForwardVector().Rotation();
-	AimAsRotator = AimDirct.Rotation();
-	DeltaRotator = AimAsRotator - BarrelRotator;
-	Barrel->Elevate(5);	
+	auto AimAsRotator = AimDirct.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
+	Barrel->Elevate(DeltaRotator.Pitch);
+}
+
+void UTankAimingComponent::SetTurrentRef(UTankTurrent* TurrentToSet)
+{
+	if (!TurrentToSet) { return; }
+	Turrent = TurrentToSet;
+}
+
+void UTankAimingComponent::MoveTurrentTowards(FVector AimDirct)
+{
+	TurrentRotator = Turrent->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirct.Rotation();
+	auto DeltaRotator = AimAsRotator - TurrentRotator;
+	Turrent->Rotate(DeltaRotator.Yaw);
 }

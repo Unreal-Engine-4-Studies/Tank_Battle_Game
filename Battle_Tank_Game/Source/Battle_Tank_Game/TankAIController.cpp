@@ -1,5 +1,7 @@
 // Leonardo Cruz copyright
 
+#include "Tank.h"
+#include "TankAimingComponent.h"
 #include "TankAIController.h"
 
 void ATankAIController::BeginPlay()

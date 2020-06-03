@@ -12,11 +12,12 @@ class BATTLE_TANK_GAME_API UTankBarrel : public UStaticMeshComponent
 	GENERATED_BODY()
 
 public:
-	void Elevate(float RelativeSpeed);
+	void Elevate(float RelativeSpeed);	
 
 private:
+
 	UPROPERTY(EditAnywhere, Category = Setup)
-	float MaxDegreesPerSeconds = 20.f;
+	float MaxDegreesPerSeconds = 10.f;
 	UPROPERTY(EditAnywhere, Category = Setup)
 	float MaxElevationDegress = 35.f;
 	UPROPERTY(EditAnywhere, Category = Setup)
